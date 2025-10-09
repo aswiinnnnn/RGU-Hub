@@ -7,11 +7,9 @@
     <meta name="description" content="Free study materials for RGU B.Sc Nursing students (2022-26 batch). Access notes, PYQs, question banks, syllabus, and practical resources without login." />
     <meta name="author" content="RGU Study Hub" />
     <meta name="keywords" content="RGU, B.Sc Nursing, study materials, notes, PYQ, question bank, Rahul Gandhi University, nursing resources" />
-    <!-- Security headers (non-enforced in all browsers, but helpful) -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
-    <!-- Content Security Policy: adjust connect-src to your API domain -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.rguhub.site; frame-ancestors 'none';" />
+    <!-- Security headers such as X-Frame-Options and CSP should be set via HTTP headers in Django -->
+    <!-- Content Security Policy (development fallback): update connect-src to include backend domain; avoid frame-ancestors here -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.rguhub.site https://rgu-hub-backend.onrender.com;" />
 
     <meta property="og:title" content="RGU B.Sc Nursing Study Hub" />
     <meta property="og:description" content="Free study materials for RGU B.Sc Nursing students. Access notes, PYQs, and resources instantly." />
