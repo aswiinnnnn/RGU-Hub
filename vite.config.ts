@@ -14,7 +14,8 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
-  base:process.env.VITE_BASE_PATH || '/rgu-hub',
+  // Use root base in development to avoid 404s locally; use subpath in prod
+  base: mode === 'development' ? '/' : (process.env.VITE_BASE_PATH || '/rgu-hub'),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

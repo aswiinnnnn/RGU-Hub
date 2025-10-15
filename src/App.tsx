@@ -32,6 +32,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// Load Vercel Analytics only in production to avoid dev resolution issues
+const Analytics = import.meta.env.PROD
+  ? (await import("@vercel/analytics/react")).Analytics
+  : (() => null) as unknown as React.ComponentType;
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Page Components
@@ -70,6 +74,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <RouterProvider router={router} />
+      {Analytics ? <Analytics /> : null}
     </TooltipProvider>
   </QueryClientProvider>
 );

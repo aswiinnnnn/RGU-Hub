@@ -99,9 +99,9 @@ const Index = () => {
         <div className="text-center max-w-3xl mx-auto animate-fade-in">
           
           
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-            RGU B.Sc Nursing 
-            <span className="block text-primary mt-2">Study Hub</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4 leading-tight">
+            RGU Hub
+            <span className="block text-primary mt-2">RGUHS Notes & PYQ</span>
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8">
@@ -236,8 +236,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="text-center space-y-2">
             <div className="flex items-center justify-center">
-              <GraduationCap className="w-6 h-6 text-primary mr-2" />
-              <span className="font-semibold text-foreground">RGU Hub</span>
+              <img src="/logo.png" alt="RGU Hub" className="h-6 w-auto" />
             </div>
             
             <p className="text-sm text-muted-foreground">
