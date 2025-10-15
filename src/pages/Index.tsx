@@ -14,12 +14,12 @@ import {
   Stethoscope,
   GraduationCap,
   ArrowRight,
-  Users,
   Download,
   BookMarked,
   Target,
   Briefcase
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 animate-fade-in">
           {highlights.map((item, index) => (
             <HighlightCard
               key={index}
@@ -149,22 +149,22 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <div 
             onClick={() => navigate('/recruitment')}
-            className="group bg-gradient-to-r from-primary/10 via-primary/5 to-success/10 hover:from-primary/20 hover:via-primary/10 hover:to-success/20 border border-primary rounded-2xl p-8 md:p-12 shadow-medium hover:shadow-lg transition-all duration-300 cursor-pointer animate-fade-in"
+            className="group bg-gradient-primary rounded-2xl p-8 md:p-12 shadow-medium hover:shadow-lg transition-all duration-300 cursor-pointer animate-fade-in"
           >
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="flex-shrink-0">
-                <div className="p-4 bg-gradient-primary rounded-2xl shadow-medium group-hover:scale-110 transition-transform">
+                <div className="p-4 bg-white/20 rounded-2xl shadow-medium group-hover:scale-110 transition-transform">
                   <Briefcase className="w-12 h-12 text-primary-foreground" />
                 </div>
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-2">
                   Recruitment Portal
                 </h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-primary-foreground/90 mb-4">
                   Discover placement opportunities and internships for BSc Nursing & Physiotherapy students
                 </p>
-                <div className="inline-flex items-center gap-2 text-primary font-medium">
+                <div className="inline-flex items-center gap-2 text-primary-foreground font-medium">
                   Browse Opportunities
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -215,19 +215,30 @@ const Index = () => {
       </section>
 
 
-       {/* About Section */}
+       {/* FAQ Section */}
        <section className="container mx-auto px-4 py-5 ">
-        <div className="max-w-4xl mx-auto bg-gradient-card rounded-2xl p-8 md:p-12 border border-border shadow-medium animate-fade-in">
-          <div className="flex items-center mb-6">
-            <Users className="w-8 h-8 text-primary mr-3" />
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">About RGU Hub</h2>
-          </div>
-          
-          <p className="text-muted-foreground leading-relaxed">
-            This platform is created for Rahul Gandhi University B.Sc Nursing students. The goal is to provide free, organized, and easy access to 
-            notes, PYQs, question banks, syllabus, and practical resources. No login 
-            required, just simple steps to get your study material.
-          </p>
+        <div className="max-w-4xl mx-auto bg-gradient-card rounded-2xl p-4 md:p-6 border border-border shadow-medium animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">FAQ</h2>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What is RGU Hub?</AccordionTrigger>
+              <AccordionContent>
+                RGU Hub is a student-focused platform for Rajiv Gandhi University of Health Sciences (Karnataka) providing organized notes, PYQs, question banks, syllabus and practical resources.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>How do I use it?</AccordionTrigger>
+              <AccordionContent>
+                Start from the home page, choose your course, select semester and subject, then pick the material type to access downloads directly—no login required.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Available resources and courses</AccordionTrigger>
+              <AccordionContent>
+                Currently focused on Nursing and Physiotherapy. Resources include Notes, PYQs, Question Banks, Syllabus and Practical guides, with more to come.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </section>
 
