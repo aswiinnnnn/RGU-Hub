@@ -26,6 +26,16 @@ export const DownloadCard = ({
       const response = await fetch(url, { credentials: 'omit' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const blob = await response.blob();
+      const cd = response.headers.get('Content-Disposition') || response.headers.get('content-disposition');
+      if (cd) {
+        const match = cd.match(/filename\*=UTF-8''([^;\n]+)/i) || cd.match(/filename="?([^";\n]+)"?/i);
+        if (match && match[1]) {
+          try {
+            const decoded = decodeURIComponent(match[1]);
+            filename = decoded;
+          } catch {}
+        }
+      }
       const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = objectUrl;
@@ -96,8 +106,34 @@ export const DownloadCard = ({
               show('error', 'File not found', 'Please try again later.');
               return;
             }
-            const safeName = `${title || 'file'}.${(type || 'pdf').toLowerCase()}`.replace(/[^a-zA-Z0-9._-]+/g, '_');
-            downloadViaBlob(downloadUrl, safeName);
+            let base = (title || 'file').replace(/\.[a-zA-Z0-9]{1,10}$/i, '');
+            let ext = (type || 'pdf').toLowerCase();
+            try {
+              const u = new URL(downloadUrl);
+              const m = u.pathname.match(/\.([a-zA-Z0-9]{1,10})$/);
+              if (m && m[1]) ext = m[1].toLowerCase();
+            } catch {}
+            const rawName = `${base}.${ext}`;
+            const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, '_');
+
+            if ((import.meta as any).env?.PROD) {
+              // In production (Vercel), route via serverless to force attachment
+              const apiUrl = `/api/download?url=${encodeURIComponent(downloadUrl)}&name=${encodeURIComponent(safeName)}`;
+              try {
+                const a = document.createElement('a');
+                a.href = apiUrl;
+                a.download = safeName; // hint for some browsers
+                a.rel = 'noopener';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+              } catch {
+                downloadViaBlob(downloadUrl, safeName);
+              }
+            } else {
+              // In development, download directly to avoid missing local API route
+              downloadViaBlob(downloadUrl, safeName);
+            }
           }}
         >
           <Download className="w-4 h-4 mr-1" />

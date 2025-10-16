@@ -17,7 +17,15 @@
                style-src 'self' 'unsafe-inline' blob:; 
                img-src 'self' data: https:; 
                font-src 'self' data:; 
-               connect-src 'self' https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com;" />
+               connect-src 'self' 
+                 http://localhost:8080 ws://localhost:8080 
+                 http://127.0.0.1:8080 ws://127.0.0.1:8080 
+                 http://localhost:5173 ws://localhost:5173 
+                 http://127.0.0.1:5173 ws://127.0.0.1:5173 
+                 http://127.0.0.1:8000 ws://127.0.0.1:8000 
+                 http://localhost:8000 ws://localhost:8000 
+                 https://res.cloudinary.com 
+                 https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com;" />
 
 
 
@@ -33,10 +41,8 @@
     <meta name="twitter:description" content="RGUHS notes, PYQ, question papers, and study materials for Nursing & Physiotherapy." />
     <meta name="twitter:image" content="/logo.png" />
     
-    <!-- JSON-LD structured data -->
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebSite","name":"RGU Hub","url":"https://www.rguhub.site/","potentialAction":{"@type":"SearchAction","target":"https://www.rguhub.site/?q={search_term_string}","query-input":"required name=search_term_string"},"about":{"@type":"CollegeOrUniversity","name":"Rajiv Gandhi University of Health Sciences","address":{"@type":"PostalAddress","addressRegion":"Karnataka","addressCountry":"IN"}},"description":"RGUHS notes, PYQ, previous year question papers, and study materials for Nursing & Physiotherapy students."}
-    </script>
+    <!-- JSON-LD structured data (loaded from static file to satisfy CSP) -->
+    <script type="application/ld+json" src="/schema.json"></script>
   </head>
 
   <body>

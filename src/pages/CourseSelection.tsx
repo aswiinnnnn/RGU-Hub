@@ -22,7 +22,7 @@ const courses = [
 		description:
 			"Curriculum follows RS5 scheme. Proceed to select semester to continue.",
 		icon: HeartPulse,
-		path: "/semester",
+		path: "/year",
 	},
 ];
 

@@ -117,15 +117,26 @@ const SemesterMaterialSelection = () => {
       });
   }, [subject?.slug]);
 
+  const isYearFlow = (location.state?.type || "sem") === "year";
+
   const handleBack = () => {
-    
-    navigate(`/semester-subjects/${semesterId}`, { 
-      state: { 
-        course: location.state?.course || "BN", 
-        type: location.state?.type || "sem", 
-        value: semesterNumber 
-      } 
-    });
+    if (isYearFlow) {
+      navigate(`/year-subjects/${location.state?.value ?? semesterNumber}`, {
+        state: {
+          course: location.state?.course || "bpt",
+          type: "year",
+          value: location.state?.value ?? semesterNumber,
+        },
+      });
+    } else {
+      navigate(`/semester-subjects/${semesterId}`, { 
+        state: { 
+          course: location.state?.course || "BN", 
+          type: "sem", 
+          value: semesterNumber 
+        } 
+      });
+    }
   };
 
   const handleMaterialTypeClick = (materialType: MaterialType) => {
@@ -193,7 +204,12 @@ const SemesterMaterialSelection = () => {
       <AppHeader />
       <div className="container mx-auto px-4 pt-0 pb-6">
         <Breadcrumbs 
-          items={[
+          items={isYearFlow ? [
+            { label: "Select Course", path: "/course" },
+            { label: "Select Year", path: "/year" },
+            { label: `Year ${location.state?.value ?? semesterNumber}`, path: `/year-subjects/${location.state?.value ?? semesterNumber}` },
+            { label: subject?.name || "" }
+          ] : [
             { label: "Select Course", path: "/course" },
             { label: "Select Course", path: "/course" },
             { label: "Select Semester", path: "/semester" },

@@ -48,6 +48,8 @@ import SemesterDownloadPage from "./pages/SemesterDownloadPage";
 import NotFound from "./pages/NotFound";
 import CourseSelection from "./pages/CourseSelection.tsx"; 
 import Recruitment from "./pages/Recruitment";
+import YearSelection from "./pages/YearSelection";
+import YearSubjectSelection from "./pages/YearSubjectSelection";
 
 // Create TanStack Query client for API state management
 const queryClient = new QueryClient();
@@ -61,6 +63,8 @@ const queryClient = new QueryClient();
 const router = createBrowserRouter([
   { path: '/', element: <Index /> },
   { path: '/course', element: <CourseSelection /> },
+  { path: '/year', element: <YearSelection /> },
+  { path: '/year-subjects/:yearId', element: <YearSubjectSelection /> },
   { path: '/semester', element: <SemesterSelection /> },
   { path: '/semester-subjects/:semesterId', element: <SemesterSubjectSelection /> },
   { path: '/semester-materials/:semesterId/:subjectId', element: <SemesterMaterialSelection /> },
