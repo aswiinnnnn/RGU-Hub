@@ -37,5 +37,26 @@
  * Development: http://127.0.0.1:8000
  * Production: set VITE_API_BASE_URL in .env or host settings
  */
-const rawApiBaseUrl = (import.meta as any).env?.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
-export const API_BASE_URL = rawApiBaseUrl.replace(/\/$/, '');
+const isProd = (import.meta as any).env?.PROD === true || (import.meta as any).env?.MODE === 'production';
+const DEFAULT_DEV_URL = 'http://127.0.0.1:8000';
+const candidate = (import.meta as any).env?.VITE_API_BASE_URL ?? (isProd ? undefined : DEFAULT_DEV_URL);
+
+if (isProd && !candidate) {
+  throw new Error('VITE_API_BASE_URL is required in production');
+}
+
+let normalized: string;
+try {
+  const u = new URL(candidate as string);
+  if (isProd && u.protocol !== 'https:') {
+    throw new Error('API base URL must use HTTPS in production');
+  }
+  if (isProd && (u.hostname === 'localhost' || u.hostname === '127.0.0.1')) {
+    throw new Error('Localhost API is not allowed in production');
+  }
+  normalized = u.origin.replace(/\/$/, '');
+} catch {
+  throw new Error('Invalid VITE_API_BASE_URL');
+}
+
+export const API_BASE_URL = normalized;

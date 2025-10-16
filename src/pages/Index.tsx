@@ -223,11 +223,11 @@ const Index = () => {
             <AccordionItem value="item-1">
               <AccordionTrigger>What is RGU Hub?</AccordionTrigger>
               <AccordionContent>
-                RGU Hub is a student-focused platform for Rajiv Gandhi University of Health Sciences (Karnataka) providing organized notes, PYQs, question banks, syllabus and practical resources.
+                RGU Hub is a student-focused platform for Rajiv Gandhi University of Health Sciences providing organized notes, PYQs, question banks, syllabus and practical resources.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>How do I use it?</AccordionTrigger>
+              <AccordionTrigger>How do i access study materials?</AccordionTrigger>
               <AccordionContent>
                 Start from the home page, choose your course, select semester and subject, then pick the material type to access downloads directly—no login required.
               </AccordionContent>
@@ -250,9 +250,7 @@ const Index = () => {
               <img src="/logo.png" alt="RGU Hub" className="h-6 w-auto" />
             </div>
             
-            <p className="text-sm text-muted-foreground">
-              Copyright © 2025 RGU Hub
-            </p>
+            
             
             <div className="max-w-2xl mx-auto p-1 bg-mute rounded-lg">
               <p className="text-xs text-muted-foreground italic">
