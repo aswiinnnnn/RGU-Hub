@@ -190,7 +190,7 @@ const Index = () => {
             const isRecruitment = item.type === "Recruitment";
             const icon = isRecruitment ? <Briefcase className="w-6 h-6 text-success mr-2" /> : <BookOpen className="w-6 h-6 text-primary mr-2" />;
             const formattedDate = new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-            const trimmedTitle = item.title.length > 35 ? item.title.slice(0, 35) + "..." : item.title;
+            const trimmedTitle = item.title.length > 26 ? item.title.slice(0, 26) + "..." : item.title;
             return (
               <div
                 key={idx}
