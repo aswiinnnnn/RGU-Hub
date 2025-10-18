@@ -219,12 +219,9 @@ const PyqDownloadPage: React.FC = () => {
                   className="bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start sm:justify-between gap-3">
-                    <div className="flex items-start space-x-3 flex-1 min-w-0">
-                      <div className="p-2 bg-primary rounded-lg">
-                        <FileText className="w-5 h-5 text-primary-foreground" />
-                      </div>
+                    <div className="flex items-start flex-1 min-w-0">
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-base font-semibold text-foreground mb-1 break-words" title={m.title}>
+                        <h4 className="text-base font-semibold text-foreground mb-1 break-words whitespace-normal" title={m.title}>
                           {displayTitle}
                         </h4>
                         {/* Highlight Year + Month just below title */}
@@ -233,12 +230,12 @@ const PyqDownloadPage: React.FC = () => {
                         </div>
                         <div className="text-xs text-muted-foreground">
                           <div className="hidden sm:flex items-center flex-wrap gap-x-3 gap-y-1">
-                            <span className="flex items-center gap-1"><Layers className="w-3 h-3" />{fileType}</span>
+                            <span className="flex items-center gap-1">{fileType}</span>
                             <span>•</span>
                             <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
                           </div>
                           <div className="sm:hidden flex flex-col gap-1 mt-1">
-                            <span className="flex items-center gap-1"><Layers className="w-3 h-3" />{fileType}</span>
+                            <span className="flex items-center gap-1">{fileType}</span>
                             <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
                           </div>
                         </div>
