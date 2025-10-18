@@ -18,7 +18,7 @@ export const HighlightCard = ({
   return (
     <div 
       onClick={onClick}
-      className="group bg-gradient-card hover:bg-card-hover border border-border rounded-2xl p-6 shadow-card hover:shadow-medium transition-all duration-300 cursor-pointer"
+      className="group bg-gradient-card hover:bg-card-hover border border-border rounded-2xl p-4 shadow-card hover:shadow-medium transition-all duration-300 cursor-pointer"
     >
       <div className="flex items-center gap-3 md:block">
         <div className={`inline-flex p-3 rounded-xl bg-${color}/10 group-hover:bg-${color}/20 transition-colors md:mb-4`}>

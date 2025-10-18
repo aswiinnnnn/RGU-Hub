@@ -190,6 +190,7 @@ const Index = () => {
             const isRecruitment = item.type === "Recruitment";
             const icon = isRecruitment ? <Briefcase className="w-6 h-6 text-success mr-2" /> : <BookOpen className="w-6 h-6 text-primary mr-2" />;
             const formattedDate = new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+            const trimmedTitle = item.title.length > 35 ? item.title.slice(0, 35) + "..." : item.title;
             return (
               <div
                 key={idx}
@@ -205,7 +206,7 @@ const Index = () => {
               >
                 {icon}
                 <div className="flex-1">
-                  <div className="font-semibold text-foreground text-lg mb-1">{item.title}</div>
+                  <div className="font-semibold text-foreground text-lg mb-1">{trimmedTitle}</div>
                   <div className="text-xs text-muted-foreground">{isRecruitment ? "Recruitment" : "Material"} • {formattedDate}</div>
                 </div>
               </div>
