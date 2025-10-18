@@ -216,11 +216,11 @@ const PyqDownloadPage: React.FC = () => {
               return (
                 <div
                   key={m.id}
-                  className="bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
+                  className="relative bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start sm:justify-between gap-3">
                     <div className="flex items-start flex-1 min-w-0">
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 pr-24 sm:pr-0">
                         <h4 className="text-base font-semibold text-foreground mb-1 break-words whitespace-normal" title={m.title}>
                           {displayTitle}
                         </h4>
@@ -244,12 +244,12 @@ const PyqDownloadPage: React.FC = () => {
                         ) : null}
                       </div>
                     </div>
-                    <div className="sm:ml-3 sm:self-start mt-2 sm:mt-0">
+                    <div className="absolute top-5 right-5">
                       <Button
                         size="sm"
                         className="bg-primary text-primary-foreground hover:bg-primary"
                         onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf")}
-                      > 
+                      >
                         Download
                       </Button>
                     </div>
