@@ -210,7 +210,7 @@ const PyqDownloadPage: React.FC = () => {
               const fileType = (m.file_type || "pdf").toUpperCase();
               const uploaded = m.created_at ? new Date(m.created_at).toLocaleDateString() : "-";
               const ym = `${m.month ? m.month : "-"} ${m.year ? m.year : ""}`.trim();
-              const size = formatBytes(m.file_size_bytes);
+              const displayTitle = m.title && m.title.length > 28 ? `${m.title.slice(0, 28)}...` : m.title;
 
               return (
                 <div
@@ -224,22 +224,20 @@ const PyqDownloadPage: React.FC = () => {
                       </div>
                       <div className="flex-1">
                         <h4 className="text-base font-semibold text-foreground mb-1" title={m.title}>
-                          {m.title}
+                          {displayTitle}
                         </h4>
+                        {/* Highlight Year + Month just below title */}
+                        <div className="text-sm md:text-base font-semibold text-primary mb-1">
+                          {ym || "-"}
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           <div className="hidden sm:flex items-center flex-wrap gap-x-3 gap-y-1">
                             <span className="flex items-center gap-1"><Layers className="w-3 h-3" />{fileType}</span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{ym || "-"}</span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1"><HardDriveDownload className="w-3 h-3" />{size}</span>
                             <span>•</span>
                             <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
                           </div>
                           <div className="sm:hidden flex flex-col gap-1 mt-1">
                             <span className="flex items-center gap-1"><Layers className="w-3 h-3" />{fileType}</span>
-                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{ym || "-"}</span>
-                            <span className="flex items-center gap-1"><HardDriveDownload className="w-3 h-3" />{size}</span>
                             <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
                           </div>
                         </div>
@@ -252,8 +250,7 @@ const PyqDownloadPage: React.FC = () => {
                       size="sm"
                       className="bg-primary text-primary-foreground hover:bg-primary"
                       onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf")}
-                    >
-                      <HardDriveDownload className="w-4 h-4 mr-1" />
+                    > 
                       Download
                     </Button>
                   </div>
