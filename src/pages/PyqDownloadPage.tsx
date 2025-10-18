@@ -211,7 +211,7 @@ const PyqDownloadPage: React.FC = () => {
               const uploaded = m.created_at ? new Date(m.created_at).toLocaleDateString() : "-";
               const monthUpper = (m.month ? String(m.month) : "-").toUpperCase();
               const ym = `${monthUpper} ${m.year ? m.year : ""}`.trim();
-              const displayTitle = m.title && m.title.length > 28 ? `${m.title.slice(0, 28)}...` : m.title;
+              const displayTitle = m.title && m.title.length > 35 ? `${m.title.slice(0, 35)}...` : m.title;
 
               return (
                 <div
