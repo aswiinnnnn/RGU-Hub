@@ -229,14 +229,10 @@ const PyqDownloadPage: React.FC = () => {
                           {ym || "-"}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          <div className="hidden sm:flex items-center flex-wrap gap-x-3 gap-y-1">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 sm:mt-0">
                             <span className="flex items-center gap-1">{fileType}</span>
                             <span>•</span>
-                            <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
-                          </div>
-                          <div className="sm:hidden flex flex-col gap-1 mt-1">
-                            <span className="flex items-center gap-1">{fileType}</span>
-                            <span className="flex items-center gap-1"><Info className="w-3 h-3" />Uploaded: {uploaded}</span>
+                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{uploaded}</span>
                           </div>
                         </div>
                         {m.description ? (
