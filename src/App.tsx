@@ -45,6 +45,7 @@ import SemesterSelection from "./pages/SemesterSelection";
 import SemesterSubjectSelection from "./pages/SemesterSubjectSelection";
 import SemesterMaterialSelection from "./pages/SemesterMaterialSelection";
 import SemesterDownloadPage from "./pages/SemesterDownloadPage";
+import PyqDownloadPage from "./pages/PyqDownloadPage";
 import NotFound from "./pages/NotFound";
 import CourseSelection from "./pages/CourseSelection.tsx"; 
 import Recruitment from "./pages/Recruitment";
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
   { path: '/year-subjects/:yearId', element: <YearSubjectSelection /> },
   { path: '/semester', element: <SemesterSelection /> },
   { path: '/semester-subjects/:semesterId', element: <SemesterSubjectSelection /> },
+  { path: '/pyq-download/:semesterId/:subjectId', element: <PyqDownloadPage /> },
   { path: '/semester-materials/:semesterId/:subjectId', element: <SemesterMaterialSelection /> },
   { path: '/semester-download/:semesterId/:subjectId/:materialType', element: <SemesterDownloadPage /> },
   { path: '/recruitment', element: <Recruitment /> },

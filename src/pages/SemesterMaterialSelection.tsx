@@ -148,7 +148,7 @@ const SemesterMaterialSelection = () => {
     
     
     if (materialType.slug === 'pyq') {
-      navigate(`/exam-session/semester/${semesterId}/${subject.slug}/${materialType.slug}`, {
+      navigate(`/pyq-download/${semesterId}/${subject.slug}`, {
         state: {
           subject: subject,
           course: location.state?.course || "BN",
