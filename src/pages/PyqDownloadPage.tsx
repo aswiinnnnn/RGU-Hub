@@ -209,7 +209,8 @@ const PyqDownloadPage: React.FC = () => {
             {items.map((m) => {
               const fileType = (m.file_type || "pdf").toUpperCase();
               const uploaded = m.created_at ? new Date(m.created_at).toLocaleDateString() : "-";
-              const ym = `${m.month ? m.month : "-"} ${m.year ? m.year : ""}`.trim();
+              const monthUpper = (m.month ? String(m.month) : "-").toUpperCase();
+              const ym = `${monthUpper} ${m.year ? m.year : ""}`.trim();
               const displayTitle = m.title && m.title.length > 28 ? `${m.title.slice(0, 28)}...` : m.title;
 
               return (
@@ -217,13 +218,13 @@ const PyqDownloadPage: React.FC = () => {
                   key={m.id}
                   className="bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start space-x-3 flex-1">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start sm:justify-between gap-3">
+                    <div className="flex items-start space-x-3 flex-1 min-w-0">
                       <div className="p-2 bg-primary rounded-lg">
                         <FileText className="w-5 h-5 text-primary-foreground" />
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-base font-semibold text-foreground mb-1" title={m.title}>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-base font-semibold text-foreground mb-1 break-words" title={m.title}>
                           {displayTitle}
                         </h4>
                         {/* Highlight Year + Month just below title */}
@@ -242,17 +243,19 @@ const PyqDownloadPage: React.FC = () => {
                           </div>
                         </div>
                         {m.description ? (
-                          <p className="mt-2 text-sm text-muted-foreground">{m.description}</p>
+                          <p className="mt-2 text-sm text-muted-foreground break-words">{m.description}</p>
                         ) : null}
                       </div>
                     </div>
-                    <Button
-                      size="sm"
-                      className="bg-primary text-primary-foreground hover:bg-primary"
-                      onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf")}
-                    > 
-                      Download
-                    </Button>
+                    <div className="sm:ml-3 sm:self-start mt-2 sm:mt-0">
+                      <Button
+                        size="sm"
+                        className="bg-primary text-primary-foreground hover:bg-primary"
+                        onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf")}
+                      > 
+                        Download
+                      </Button>
+                    </div>
                   </div>
                 </div>
               );
