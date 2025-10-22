@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Backgrounds */
+    --background: 60 20% 99%;
+    --foreground: 250 20% 15%;
+
+    /* Cards */
+    --card: 0 0% 100%;
+    --card-foreground: 150 20% 20%;
+    --card-hover: 145 30% 96%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 20% 15%;
+
+    /* Primary - Sage Green */
+    --primary: 146, 87%, 34%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Emerald Green */
+    --secondary: 158 54% 52%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted */
+    --muted: 145 15% 96%;
+    --muted-foreground: 150 15% 40%;
+
+    /* Accent - Emerald */
+    --accent: 158 64% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 145 20% 90%;
+    --input: 145 20% 94%;
+    --ring: 145 35% 55%;
+
+    /* Radius */
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 145 25% 97%;
+    --sidebar-foreground: 150 20% 20%;
+    --sidebar-primary: 145 35% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 145 20% 92%;
+    --sidebar-accent-foreground: 150 30% 25%;
+    --sidebar-border: 145 20% 88%;
+    --sidebar-ring: 145 35% 55%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(146, 89%, 25%), hsl(146, 100%, 29%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(145 20% 97%));
+    --gradient-hero: linear-gradient(180deg, hsl(145 30% 95%), hsl(60 20% 99%));
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px hsl(145 20% 80% / 0.15);
+    --shadow-medium: 0 4px 16px hsl(145 20% 70% / 0.2);
+    --shadow-card: 0 1px 3px hsl(145 20% 80% / 0.12), 0 1px 2px hsl(145 20% 80% / 0.24);
+    --shadow-nav: 0 0px 80px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark {
+    /* Dark mode - Deep Forest Theme */
+    --background: 150 20% 8%;
+    --foreground: 145 20% 95%;
+
+    --card: 150 20% 12%;
+    --card-foreground: 145 20% 95%;
+    --card-hover: 145 25% 16%;
+
+    --popover: 150 20% 10%;
+    --popover-foreground: 145 20% 95%;
+
+    --primary: 145 40% 60%;
+    --primary-foreground: 150 20% 10%;
+
+    --secondary: 158 64% 42%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 150 15% 20%;
+    --muted-foreground: 145 15% 65%;
+
+    --accent: 158 64% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 142 76% 42%;
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 20% 20%;
+    --input: 150 20% 18%;
+    --ring: 145 40% 60%;
+
+    --sidebar-background: 150 20% 10%;
+    --sidebar-foreground: 145 20% 90%;
+    --sidebar-primary: 145 40% 60%;
+    --sidebar-primary-foreground: 150 20% 10%;
+    --sidebar-accent: 150 20% 15%;
+    --sidebar-accent-foreground: 145 20% 90%;
+    --sidebar-border: 150 20% 18%;
+    --sidebar-ring: 145 40% 60%;
+
+    /* Gradients for dark mode */
+    --gradient-primary: linear-gradient(135deg, hsl(145 40% 60%), hsl(158 64% 45%));
+    --gradient-card: linear-gradient(145deg, hsl(150 20% 14%), hsl(150 20% 10%));
+    --gradient-hero: linear-gradient(180deg, hsl(150 20% 12%), hsl(150 20% 8%));
+
+    /* Shadows for dark mode */
+    --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 4px 16px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.35), 0 1px 2px hsl(0 0% 0% / 0.45);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
