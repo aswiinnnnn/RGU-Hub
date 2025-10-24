@@ -11,7 +11,7 @@ export const Loader: React.FC<LoaderProps> = ({ label, className, inline, sizePx
   if (inline) {
     return (
       <span className={"inline-flex items-center text-current " + (className || "") }>
-        <span className="loader" style={sizePx ? { height: sizePx } : undefined} />
+        <span className="inline-loader" style={sizePx ? { height: sizePx } : undefined} />
       </span>
     );
   }

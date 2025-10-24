@@ -1,4 +1,24 @@
+/* HTML: <div class="loader"></div> */
 .loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+/* Inline loader for small text placement */
+.inline-loader {
   height: 12px;
   aspect-ratio: 4;
   --_g: no-repeat radial-gradient(farthest-side, currentColor 90%, #0000);
@@ -9,8 +29,8 @@
   display: grid;
 }
 
-.loader:before,
-.loader:after {
+.inline-loader:before,
+.inline-loader:after {
   content: "";
   height: inherit;
   aspect-ratio: 1;
@@ -22,7 +42,7 @@
   animation: l49 1s infinite linear;
 }
 
-.loader:after {
+.inline-loader:after {
   transform-origin: 200% 50%;
   --s: -1;
   animation-delay: -0.5s;

@@ -152,7 +152,7 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-hero bg-[length:200%] animate-rainbow motion-reduce:animate-none will-change-[background-position]" style={{ ['--speed' as any]: '20s' }}>
+    <div className="min-h-screen bg-gradient-hero bg-[length:200%]">
       {/* Header */}
       <AppHeader />
       
@@ -181,13 +181,12 @@ const Index = () => {
             <RainbowButton
               variant="default"
               size="lg"
-              className="z-10 group will-change-[background-position] hover:animate-rainbow motion-reduce:animate-none opacity-90 w-full sm:w-auto"
-              style={{ ['--speed' as any]: '1.2s' }}
+              className="z-10 group opacity-90 w-full sm:w-auto"
               onClick={() => navigate('/course')}
               aria-label="Access study materials"
             >
               Access Materials Now
-              <ArrowRight className="w-5 h-5 animate-arrow-horizontal" />
+              <ArrowRight className="w-5 h-5" />
             </RainbowButton>
           </div>
         </div>
