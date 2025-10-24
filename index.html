@@ -18,14 +18,13 @@
     <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <!-- Security headers such as X-Frame-Options and CSP should be set via HTTP headers in Django -->
     <!-- Content Security Policy (development fallback): update connect-src to include backend domain; avoid frame-ancestors here -->
-    <meta http-equiv="Content-Security-Policy" 
+   <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https://vercel.live https://*.vercel-insights.com https://va.vercel-scripts.com; 
+               script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https://vercel.live https://*.vercel-insights.com; 
                style-src 'self' 'unsafe-inline' blob:; 
                img-src 'self' data: https:; 
                font-src 'self' data:; 
-               connect-src 'self' https://res.cloudinary.com https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com http://127.0.0.1:8000;" />
-
+               connect-src 'self' https://res.cloudinary.com https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com;">
 
 
     <!-- Open Graph / Facebook -->
