@@ -122,15 +122,27 @@ export const DownloadCard = ({
     } catch (error) {
       console.error('Download failed:', error);
 
-      // Show user-friendly error message
-      const errorMessage = error instanceof Error ? error.message : 'Download failed';
-      alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
-
-      // Fallback: try opening in new tab as last resort
-      if (!errorMessage.includes('Invalid file URL')) {
-        setTimeout(() => {
+      // CSP fallback: try anchor-based download without fetch (Cloudinary friendly)
+      try {
+        const link = document.createElement('a');
+        const sep = url.includes('?') ? '&' : '?';
+        link.href = `${url}${sep}download=${encodeURIComponent(filename)}`;
+        link.download = filename; // hint
+        link.rel = 'noopener';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        // Resolve after short delay to allow status to move to completed
+        await new Promise((r) => setTimeout(r, 300));
+        return;
+      } catch (e) {
+        // Show user-friendly error message and final fallback
+        const errorMessage = error instanceof Error ? error.message : 'Download failed';
+        alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
+        if (!String(errorMessage).includes('Invalid file URL')) {
           window.open(url, '_blank', 'noopener,noreferrer');
-        }, 1000); // Small delay to let alert be read
+        }
       }
     }
   };
