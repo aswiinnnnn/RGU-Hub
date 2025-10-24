@@ -10,6 +10,43 @@ interface DownloadCardProps {
   downloadUrl: string;
 }
 
+// Minimal PrimeReact-like spinner (no external deps)
+const InlineSpinner: React.FC<{ size?: number; strokeWidth?: number; durationSec?: number; className?: string }> = ({
+  size = 16,
+  strokeWidth = 8,
+  durationSec = 0.5,
+  className,
+}) => {
+  const radius = (50 - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  // Create an arc by showing ~60% of the stroke
+  const dash = 0.6 * circumference;
+  const gap = circumference - dash;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 50 50"
+      fill="none"
+      className={"animate-spin " + (className || "")}
+      style={{ animationDuration: `${durationSec}s` }}
+      role="progressbar"
+      aria-label="Loading"
+    >
+      <circle
+        cx="25"
+        cy="25"
+        r={radius}
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeDasharray={`${dash} ${gap}`}
+        transform="rotate(-90 25 25)"
+      />
+    </svg>
+  );
+};
+
 export const DownloadCard = ({ 
   title, 
   type, 
@@ -29,6 +66,8 @@ export const DownloadCard = ({
 
   const maxLen = vw < 380 ? 24 : vw < 640 ? 28 : vw < 768 ? 36 : vw < 1024 ? 48 : 72;
   const displayTitle = fullTitle && fullTitle.length > maxLen ? `${fullTitle.slice(0, maxLen)}...` : fullTitle;
+  const [downloading, setDownloading] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'downloading' | 'completed'>('idle');
   
   // Enhanced download function with better error handling
   const downloadFile = async (url: string, filename: string) => {
@@ -147,7 +186,8 @@ export const DownloadCard = ({
           <Button 
             size="sm"
             className="bg-primary text-primary-foreground hover:bg-primary"
-            onClick={() => {
+            disabled={downloading}
+            onClick={async () => {
               if (!downloadUrl || downloadUrl === '#') {
                 console.warn('File not found');
                 return;
@@ -165,11 +205,30 @@ export const DownloadCard = ({
               const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, '_');
 
               // Use the enhanced download function
-              downloadFile(downloadUrl, safeName);
+              try {
+                setDownloading(true);
+                setStatus('downloading');
+                await downloadFile(downloadUrl, safeName);
+                setStatus('completed');
+                setTimeout(() => setStatus('idle'), 2000);
+              } finally {
+                setDownloading(false);
+              }
             }}
           >
-            <Download className="w-4 h-4 mr-1" />
-            Download
+            {status === 'downloading' ? (
+              <span className="inline-flex items-center gap-2">
+                <InlineSpinner size={16} strokeWidth={6} durationSec={0.5} className="text-primary-foreground" />
+                <span>Downloading</span>
+              </span>
+            ) : status === 'completed' ? (
+              <span>Completed</span>
+            ) : (
+              <>
+                <Download className="w-4 h-4 mr-1" />
+                Download
+              </>
+            )}
           </Button>
         </div>
       </div>

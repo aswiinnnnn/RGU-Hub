@@ -21,6 +21,42 @@ interface PyqMaterial {
   material_type?: { slug: string; name: string } | null;
 }
 
+// Minimal PrimeReact-like spinner for inline usage
+const InlineSpinner: React.FC<{ size?: number; strokeWidth?: number; durationSec?: number; className?: string }> = ({
+  size = 16,
+  strokeWidth = 6,
+  durationSec = 0.5,
+  className,
+}) => {
+  const radius = (50 - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dash = 0.6 * circumference;
+  const gap = circumference - dash;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 50 50"
+      fill="none"
+      className={"animate-spin " + (className || "")}
+      style={{ animationDuration: `${durationSec}s` }}
+      role="progressbar"
+      aria-label="Loading"
+    >
+      <circle
+        cx="25"
+        cy="25"
+        r={radius}
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeDasharray={`${dash} ${gap}`}
+        transform="rotate(-90 25 25)"
+      />
+    </svg>
+  );
+};
+
 const formatBytes = (bytes?: number) => {
   if (!bytes || bytes <= 0) return "-";
   const sizes = ["B", "KB", "MB", "GB", "TB"];
@@ -49,6 +85,8 @@ const PyqDownloadPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [vw, setVw] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [statusById, setStatusById] = useState<Record<number, 'idle' | 'downloading' | 'completed'>>({});
   useEffect(() => {
     const onResize = () => setVw(window.innerWidth);
     window.addEventListener('resize', onResize);
@@ -168,7 +206,7 @@ const PyqDownloadPage: React.FC = () => {
     }
   };
 
-  const triggerDownload = (url: string, title?: string, fileType?: string) => {
+  const triggerDownload = async (url: string, title?: string, fileType?: string, id?: number) => {
     const base = safeTitleBase(title);
     let ext = (fileType || "pdf").toLowerCase();
     try {
@@ -181,8 +219,22 @@ const PyqDownloadPage: React.FC = () => {
     const rawName = `${base}.${ext}`;
     const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, "_");
 
-    // Use the enhanced download function
-    downloadFile(url, safeName);
+    // Use the enhanced download function with inline spinner
+    try {
+      if (typeof id === 'number') {
+        setDownloadingId(id);
+        setStatusById((prev) => ({ ...prev, [id]: 'downloading' }));
+      }
+      await downloadFile(url, safeName);
+      if (typeof id === 'number') {
+        setStatusById((prev) => ({ ...prev, [id]: 'completed' }));
+        setTimeout(() => {
+          setStatusById((prev) => ({ ...prev, [id]: 'idle' }));
+        }, 2000);
+      }
+    } finally {
+      setDownloadingId(null);
+    }
   };
 
   return (
@@ -301,9 +353,14 @@ const PyqDownloadPage: React.FC = () => {
                       <Button
                         size="sm"
                         className="bg-primary text-primary-foreground hover:bg-primary"
-                        onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf")}
+                        disabled={downloadingId === m.id}
+                        onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf", m.id)}
                       >
-                        Download
+                        {downloadingId === m.id ? (
+                          <InlineSpinner size={16} strokeWidth={6} durationSec={0.5} className="text-primary-foreground" />
+                        ) : (
+                          <>Download</>
+                        )}
                       </Button>
                     </div>
                   </div>
