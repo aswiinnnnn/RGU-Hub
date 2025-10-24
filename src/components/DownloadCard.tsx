@@ -72,25 +72,6 @@ export const DownloadCard = ({
   // Enhanced download function with better error handling
   const downloadFile = async (url: string, filename: string) => {
     try {
-      // If it's a Cloudinary URL, avoid fetch and iframe (CSP). Use anchor navigation with fl_attachment
-      try {
-        const u = new URL(url);
-        if (u.hostname.endsWith('res.cloudinary.com')) {
-          const sep0 = url.includes('?') ? '&' : '?';
-          const dl0 = `${url}${sep0}fl_attachment=${encodeURIComponent(filename)}`;
-          const a0 = document.createElement('a');
-          a0.href = dl0;
-          a0.download = filename;
-          a0.rel = 'noopener noreferrer';
-          a0.target = '_blank';
-          a0.style.display = 'none';
-          document.body.appendChild(a0);
-          a0.click();
-          document.body.removeChild(a0);
-          await new Promise((r) => setTimeout(r, 300));
-          return;
-        }
-      } catch {}
       // Check for invalid/placeholder URLs
       if (url.includes('your-cloud-name') || url.includes('example.com') || url.includes('placeholder')) {
         throw new Error('Invalid file URL - please contact administrator');
@@ -140,7 +121,7 @@ export const DownloadCard = ({
 
     } catch (error) {
       console.error('Download failed:', error);
-      // Final fallback: anchor with fl_attachment
+      // Final fallback: anchor with fl_attachment (may open a new tab)
       try {
         const sep = url.includes('?') ? '&' : '?';
         const dlUrl = `${url}${sep}fl_attachment=${encodeURIComponent(filename)}`;
