@@ -227,10 +227,14 @@ export const DownloadCard = ({
             {status === 'downloading' ? (
               <span className="inline-flex items-center gap-2">
                 <InlineSpinner size={16} strokeWidth={6} durationSec={0.5} className="text-primary-foreground" />
-                <span>Downloading</span>
+                <span>Download</span>
               </span>
             ) : status === 'completed' ? (
-              <span>Completed</span>
+              
+              <>
+                <Download className="w-4 h-4 mr-1" />
+                Completed
+              </>
             ) : (
               <>
                 <Download className="w-4 h-4 mr-1" />
