@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "@/components/AppHeader";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/Loader";
 import { ArrowLeft, Calendar, FileText, HardDriveDownload, Info, Layers } from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
 
@@ -109,7 +110,7 @@ const PyqDownloadPage: React.FC = () => {
     const rawName = `${base}.${ext}`;
     const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, "_");
 
-    if ((import.meta as Record<string, unknown>).env?.PROD) {
+    if (import.meta.env?.PROD) {
       const apiUrl = `/api/download?url=${encodeURIComponent(url)}&name=${encodeURIComponent(safeName)}`;
       const a = document.createElement("a");
       a.href = apiUrl;
@@ -176,15 +177,22 @@ const PyqDownloadPage: React.FC = () => {
                 Previous Year Questions
               </h1>
               <p className="text-muted-foreground">
-                {subject?.name} • {loading ? "Loading..." : `${items.length} files available`}
+                {subject?.name} • {loading ? (
+                  <span className="inline-flex items-center">Loading from server<Loader inline sizePx={10} className="ml-2" /></span>
+                ) : (
+                  `${items.length} files available`
+                )}
               </p>
             </div>
           </div>
         </div>
 
         {loading && (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">Loading PYQ files...</p>
+          <div className="w-full flex items-center justify-center text-muted-foreground py-8 min-h-[40vh]">
+            <span className="inline-flex items-baseline">
+              <span className="align-baseline">Loading previous year questions from server</span>
+              <Loader inline sizePx={4} className="ml-1 align-baseline relative top-[1px]" />
+            </span>
           </div>
         )}
 

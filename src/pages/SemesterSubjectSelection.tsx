@@ -8,6 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { API_BASE_URL } from "@/config/api";
 import { BookOpen } from "lucide-react";
+import { Loader } from "@/components/Loader";
 
 type Subject = {
   id: number;
@@ -114,8 +115,11 @@ const SemesterSubjectSelection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
           {loading && (
-            <div className="col-span-2 text-center py-8">
-              <p className="text-muted-foreground">Loading subjects...</p>
+            <div className="col-span-2 w-full flex items-center justify-center text-muted-foreground py-8 min-h-[40vh]">
+              <span className="inline-flex items-baseline">
+                <span className="align-baseline">Loading subjects from server</span>
+                <Loader inline sizePx={4} className="ml-1 align-baseline relative top-[1px]" />
+              </span>
             </div>
           )}
           {error && (

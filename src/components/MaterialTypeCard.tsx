@@ -1,4 +1,5 @@
 import { LucideIcon, Download } from "lucide-react";
+import "./BadgeSpinner.css";
 
 interface MaterialTypeCardProps {
   icon: LucideIcon;
@@ -7,6 +8,7 @@ interface MaterialTypeCardProps {
   count: number;
   onClick: () => void;
   color?: string;
+  loading?: boolean;
 }
 
 export const MaterialTypeCard = ({ 
@@ -15,7 +17,8 @@ export const MaterialTypeCard = ({
   description,
   count,
   onClick,
-  color = "primary"
+  color = "primary",
+  loading = false
 }: MaterialTypeCardProps) => {
   return (
     <div 
@@ -26,9 +29,15 @@ export const MaterialTypeCard = ({
         <div className={`p-3 bg-green/10 rounded-xl group-hover:bg-${color}/20 transition-colors`}>
           <Icon className={`w-7 h-7 text-primary`} />
         </div>
-        <span className="px-3 py-1 bg-primary text-secondary-foreground text-sm font-semibold rounded-full">
-          {count} files
-        </span>
+        {loading ? (
+          <span className="bg-primary text-secondary-foreground rounded-full inline-flex items-center justify-center w-6 h-6">
+            <span className="badge-loader" aria-label="Loading file count" />
+          </span>
+        ) : (
+          <span className="px-3 py-1 bg-primary text-secondary-foreground text-sm font-semibold rounded-full inline-flex items-center justify-center whitespace-nowrap">
+            {count} files
+          </span>
+        )}
       </div>
       
       <h3 className="text-lg font-bold text-foreground mb-2">{title}</h3>

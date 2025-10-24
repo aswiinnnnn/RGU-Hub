@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import AppHeader from "@/components/AppHeader";
 import useBreadcrumbBack from "@/hooks/use-breadcrumb-back";
 import { DownloadCard } from "@/components/DownloadCard";
+import { Loader } from "@/components/Loader";
 import { 
   HelpCircle, 
   ClipboardList, 
@@ -246,6 +247,7 @@ const SemesterMaterialSelection = () => {
               description={materialType.description}
               count={materials.filter(m => m.material_type && m.material_type.slug === materialType.slug).length}
               color={materialType.color}
+              loading={loading}
               onClick={() => handleMaterialTypeClick(materialType)}
             />
           ))}
@@ -272,8 +274,11 @@ const SemesterMaterialSelection = () => {
 
         {/* Display fetched materials from API */}
         {loading && (
-          <div className="mt-10 text-center py-8">
-            <p className="text-muted-foreground">Loading study materials...</p>
+          <div className="w-full flex items-center justify-center text-muted-foreground py-8 min-h-[40vh]">
+            <span className="inline-flex items-baseline">
+              <span className="align-baseline">Loading study materials from server</span>
+              <Loader inline sizePx={4} className="ml-1 align-baseline relative top-[1px]" />
+            </span>
           </div>
         )}
 

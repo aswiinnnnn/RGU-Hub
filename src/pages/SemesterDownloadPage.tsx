@@ -7,6 +7,7 @@ import AppHeader from "@/components/AppHeader";
 import useBreadcrumbBack from "@/hooks/use-breadcrumb-back";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "@/config/api";
+import { Loader } from "@/components/Loader";
 
 type Material = {
   id: number;
@@ -125,15 +126,22 @@ const SemesterDownloadPage = () => {
                 {formatMaterialType(materialType)}
               </h1>
               <p className="text-muted-foreground">
-                {subject?.name} • {loading ? "Loading..." : `${materials.length} files available`}
+                {subject?.name} • {loading ? (
+                  <span className="inline-flex items-center">Loading from server. Please wait a moment.</span>
+                ) : (
+                  `${materials.length} files available`
+                )}
               </p>
             </div>
           </div>
         </div>
 
         {loading && (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">Loading materials...</p>
+          <div className="w-full flex items-center justify-center text-muted-foreground py-8 min-h-[40vh]">
+            <span className="inline-flex items-baseline">
+              <span>Loading materials from server</span>
+              <Loader inline sizePx={4} className="ml-1 relative top-[1px]" />
+            </span>
           </div>
         )}
 
