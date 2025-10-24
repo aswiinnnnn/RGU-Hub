@@ -143,6 +143,21 @@ const PyqDownloadPage: React.FC = () => {
 
   const downloadFile = async (url: string, filename: string) => {
     try {
+      // If Cloudinary, avoid fetch (blocked by CSP). Use hidden iframe with fl_attachment
+      try {
+        const u = new URL(url);
+        if (u.hostname.endsWith('res.cloudinary.com')) {
+          const sep0 = url.includes('?') ? '&' : '?';
+          const dl0 = `${url}${sep0}fl_attachment=${encodeURIComponent(filename)}`;
+          const iframe0 = document.createElement('iframe');
+          iframe0.style.display = 'none';
+          iframe0.src = dl0;
+          document.body.appendChild(iframe0);
+          await new Promise((r) => setTimeout(r, 500));
+          document.body.removeChild(iframe0);
+          return;
+        }
+      } catch {}
       // Check for invalid/placeholder URLs
       if (url.includes('your-cloud-name') || url.includes('example.com') || url.includes('placeholder')) {
         throw new Error('Invalid file URL - please contact administrator');

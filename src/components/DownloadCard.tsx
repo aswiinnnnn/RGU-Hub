@@ -72,6 +72,21 @@ export const DownloadCard = ({
   // Enhanced download function with better error handling
   const downloadFile = async (url: string, filename: string) => {
     try {
+      // If it's a Cloudinary URL, avoid fetch (blocked by CSP). Use iframe method directly.
+      try {
+        const u = new URL(url);
+        if (u.hostname.endsWith('res.cloudinary.com')) {
+          const sep0 = url.includes('?') ? '&' : '?';
+          const dl0 = `${url}${sep0}fl_attachment=${encodeURIComponent(filename)}`;
+          const iframe0 = document.createElement('iframe');
+          iframe0.style.display = 'none';
+          iframe0.src = dl0;
+          document.body.appendChild(iframe0);
+          await new Promise((r) => setTimeout(r, 500));
+          document.body.removeChild(iframe0);
+          return;
+        }
+      } catch {}
       // Check for invalid/placeholder URLs
       if (url.includes('your-cloud-name') || url.includes('example.com') || url.includes('placeholder')) {
         throw new Error('Invalid file URL - please contact administrator');
@@ -122,26 +137,38 @@ export const DownloadCard = ({
     } catch (error) {
       console.error('Download failed:', error);
 
-      // CSP fallback: try anchor-based download without fetch (Cloudinary friendly)
+      // CSP fallback: try hidden iframe first (often bypasses connect-src restrictions)
       try {
-        const link = document.createElement('a');
         const sep = url.includes('?') ? '&' : '?';
-        link.href = `${url}${sep}download=${encodeURIComponent(filename)}`;
-        link.download = filename; // hint
-        link.rel = 'noopener';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        // Resolve after short delay to allow status to move to completed
-        await new Promise((r) => setTimeout(r, 300));
+        const dlUrl = `${url}${sep}fl_attachment=${encodeURIComponent(filename)}`;
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = dlUrl;
+        document.body.appendChild(iframe);
+        await new Promise((r) => setTimeout(r, 500));
+        document.body.removeChild(iframe);
         return;
       } catch (e) {
-        // Show user-friendly error message and final fallback
-        const errorMessage = error instanceof Error ? error.message : 'Download failed';
-        alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
-        if (!String(errorMessage).includes('Invalid file URL')) {
-          window.open(url, '_blank', 'noopener,noreferrer');
+        // Anchor-based final fallback (may open a new tab on some browsers)
+        try {
+          const link = document.createElement('a');
+          const sep2 = url.includes('?') ? '&' : '?';
+          link.href = `${url}${sep2}fl_attachment=${encodeURIComponent(filename)}`;
+          link.download = filename;
+          link.rel = 'noopener noreferrer';
+          link.target = '_blank';
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          await new Promise((r) => setTimeout(r, 300));
+          return;
+        } catch {
+          const errorMessage = error instanceof Error ? error.message : 'Download failed';
+          alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
+          if (!String(errorMessage).includes('Invalid file URL')) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+          }
         }
       }
     }
