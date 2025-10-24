@@ -1,28 +1,96 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { NoticeBar } from "@/components/NoticeBar";
 import { PosterCarousel } from "@/components/PosterCarousel";
 import AppHeader from "@/components/AppHeader";
 import { HighlightCard } from "@/components/HighlightCard";
 import { API_BASE_URL } from "@/config/api";
-import { Button } from "@/components/ui/button";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import { 
   BookOpen, 
   FileText, 
   HelpCircle, 
   ClipboardList, 
   Stethoscope,
-  GraduationCap,
   ArrowRight,
-  Download,
   BookMarked,
-  Target,
   Briefcase
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
+// Local typing animation component for the hero subtitle
+const TypingText: React.FC<{
+  words: string[];
+  typingSpeed?: number; // ms per character while typing
+  deletingSpeed?: number; // ms per character while deleting
+  pauseTime?: number; // ms to pause when a word completes
+  prefix?: string; // constant text before animated word
+  prefixColor?: string; // hex/rgb/hsl color code for the prefix
+  blinkCursor?: boolean; // whether to show blinking cursor
+  showCursor?: boolean; // alias to control cursor visibility (non-blinking supported)
+}> = ({
+  words,
+  typingSpeed = 50,
+  deletingSpeed = 40,
+  pauseTime = 3800,
+  prefix = "Explore",
+  prefixColor= "#033301",
+  blinkCursor = true,
+  showCursor,
+}) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    if (!words.length) return;
+
+    const current = words[index % words.length];
+    const atWordEnd = subIndex === current.length;
+    const atWordStart = subIndex === 0 && deleting;
+
+    const timeout = setTimeout(() => {
+      if (deleting) {
+        if (atWordStart) {
+          setDeleting(false);
+          setIndex((prev) => (prev + 1) % words.length);
+        } else {
+          setSubIndex((prev) => Math.max(prev - 1, 0));
+        }
+      } else {
+        if (atWordEnd) {
+          setDeleting(true);
+        } else {
+          setSubIndex((prev) => Math.min(prev + 1, current.length));
+        }
+      }
+    }, deleting ? deletingSpeed : (atWordEnd ? pauseTime : typingSpeed));
+
+    return () => clearTimeout(timeout);
+  }, [words, index, subIndex, deleting, typingSpeed, deletingSpeed, pauseTime]);
+
+  const text = words[index % words.length].slice(0, subIndex);
+
+  const showCaret = showCursor ?? blinkCursor;
+
+  return (
+    <span className="inline-flex items-center gap-1 whitespace-nowrap text-3lg sm:text-4xl md:text-5xl lg:text-6xl tracking-tight max-w-full overflow-hidden min-w-0">
+      <span
+        className="shrink-0 mr-2"
+        style={prefixColor ? { color: prefixColor } : undefined}
+      >
+        {prefix}
+      </span>
+      <span className="text-primary font-bold truncate">{text}</span>
+      {showCaret && (
+        <span className="ml-0.5 self-center h-[0.9em] w-[2px] bg-current animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+      )}
+    </span>
+  );
+};
+
 const Index = () => {
   const navigate = useNavigate();
+  const heroPrefixColor = "#363636";
 
   const highlights = [
     {
@@ -84,8 +152,7 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
-      {/* <NoticeBar /> */}
+    <div className="min-h-screen bg-gradient-hero bg-[length:200%] animate-rainbow motion-reduce:animate-none will-change-[background-position]" style={{ ['--speed' as any]: '20s' }}>
       {/* Header */}
       <AppHeader />
       
@@ -95,32 +162,39 @@ const Index = () => {
       </section>
       
       {/* Hero Section */}
-      <main className="container mx-auto px-4 py-12 md:py-20">
+      <main className="container mx-auto px-4 py-8 md:py-5">
         <div className="text-center max-w-3xl mx-auto animate-fade-in">
           
           
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4 leading-tight">
-            RGU Hub
-            <span className="block text-primary mt-2">RGUHS Notes & PYQ</span>
+          <h1 className="text-3xl md:text-6xl font-bold -mt-4 md:-mt-2 mb-1 leading-tight" style={{ color: heroPrefixColor }}>
+            RGU HUB
+            <span className="block mt-2">
+              <TypingText words={[ "PYQs", "Question Bank", "Notes", "Syllabus", "Practical Resources"]} prefixColor={heroPrefixColor} showCursor={false} />
+            </span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground mb-8">
-            Notes, PYQs & Question Banks for 2022–26 batch at one place
+          <p className="text-lg md:text-xl text-muted-foreground mb-6">
+            Notes, PYQs & Question Banks etc for students at one place
           </p>
           
-          <Button 
-            size="lg"
-            onClick={() => navigate('/course')}
-            className="bg-gradient-primary hover:opacity-90 text-primary-foreground px-8 py-6 text-lg rounded-xl shadow-medium"
-          >
-            Get Study Material
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
+          <div className="inline-block w-auto sm:w-auto scale-110 md:scale-125 ">
+            <RainbowButton
+              variant="default"
+              size="lg"
+              className="z-10 group will-change-[background-position] hover:animate-rainbow motion-reduce:animate-none opacity-90 w-full sm:w-auto"
+              style={{ ['--speed' as any]: '1.2s' }}
+              onClick={() => navigate('/course')}
+              aria-label="Access study materials"
+            >
+              Access Materials Now
+              <ArrowRight className="w-5 h-5 animate-arrow-horizontal" />
+            </RainbowButton>
+          </div>
         </div>
       </main>
 
       {/* Highlights Section */}
-      <section className="container mx-auto px-4 " aria-label="Available study resources">
+      <section className="container mt-0 mx-auto px-4 " aria-label="Available study resources">
         <div className="text-center mb-10 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             Available Resources
@@ -250,18 +324,12 @@ const Index = () => {
             <div className="flex items-center justify-center mb-4">
               <img src="/logo.png" alt="RGU Hub Logo - RGUHS Study Materials Platform" className="h-6 w-auto" />
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Your comprehensive platform for RGUHS study materials, notes, PYQs, and recruitment opportunities.
-            </p>
             <div className="max-w-2xl mx-auto p-1 bg-mute rounded-lg">
               <p className="text-xs text-muted-foreground italic">
                 <strong>Disclaimer:</strong> This is a platform made for students to access study materials easily. 
                 Official syllabus and results are available only on the official RGUHS website.
               </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              © 2025 RGU Hub. All rights reserved. | Rajiv Gandhi University of Health Sciences Study Materials
-            </p>
           </div>
         </div>
       </footer>

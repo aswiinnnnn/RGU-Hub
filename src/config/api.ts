@@ -37,40 +37,42 @@
  * Development: http://127.0.0.1:8000
  * Production: set VITE_API_BASE_URL in .env or host settings
  */
-const isProd = (import.meta as Record<string, unknown>).env?.PROD === true || (import.meta as Record<string, unknown>).env?.MODE === 'production';
+const isProd = import.meta.env.PROD || import.meta.env.MODE === 'production';
 // In development, use a relative /api base and let Vite proxy forward to Django.
 // This avoids CORS and HTTPS vs HTTP mismatches entirely.
 const DEFAULT_DEV_URL = '/api';
-const candidate = (import.meta as Record<string, unknown>).env?.VITE_API_BASE_URL ?? (isProd ? undefined : DEFAULT_DEV_URL);
+let candidateRaw = import.meta.env.VITE_API_BASE_URL as string | undefined;
+// In development, ignore absolute URLs in env to guarantee same-origin requests via Vite proxy.
+if (!isProd) {
+  if (!candidateRaw || !String(candidateRaw).startsWith('/')) {
+    candidateRaw = DEFAULT_DEV_URL;
+  }
+}
+const candidate = candidateRaw ?? (isProd ? undefined : DEFAULT_DEV_URL);
 
 if (isProd && !candidate) {
   throw new Error('VITE_API_BASE_URL is required in production');
 }
 
 let normalized: string;
-try {
-  const u = new URL(candidate as string);
-  if (isProd && u.protocol !== 'https:') {
+if (!isProd) {
+  // Development: always use relative path to leverage Vite proxy and avoid CORS
+  normalized = candidate as string; // guaranteed to start with '/'
+} else {
+  // Production: must be a valid absolute HTTPS URL and not localhost
+  let u: URL;
+  try {
+    u = new URL(candidate as string);
+  } catch {
+    throw new Error('Invalid VITE_API_BASE_URL');
+  }
+  if (u.protocol !== 'https:') {
     throw new Error('API base URL must use HTTPS in production');
   }
-  if (isProd && (u.hostname === 'localhost' || u.hostname === '127.0.0.1')) {
+  if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
     throw new Error('Localhost API is not allowed in production');
   }
-  if (!isProd) {
-    // If using relative /api, keep as-is
-    if ((candidate as string).startsWith('/')) {
-      normalized = candidate as string;
-    } else if ((u.hostname === 'localhost' || u.hostname === '127.0.0.1') && u.protocol === 'https:') {
-      // Prevent accidental https to localhost which causes SSL errors
-      normalized = `http://${u.host}`;
-    } else {
-      normalized = u.origin.replace(/\/$/, '');
-    }
-  } else {
-    normalized = u.origin.replace(/\/$/, '');
-  }
-} catch {
-  throw new Error('Invalid VITE_API_BASE_URL');
+  normalized = u.origin.replace(/\/$/, '');
 }
 
 export const API_BASE_URL = normalized;

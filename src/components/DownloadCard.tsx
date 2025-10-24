@@ -1,6 +1,5 @@
 import { Download, FileText, Calendar, FileType } from "lucide-react";
 import { Button } from "./ui/button";
-import useResponsiveToast from "@/hooks/use-toast";
 
 interface DownloadCardProps {
   title: string;
@@ -17,7 +16,6 @@ export const DownloadCard = ({
   uploadDate, 
   downloadUrl 
 }: DownloadCardProps) => {
-  const { show } = useResponsiveToast();
   const truncatedTitle = title && title.length > 35 ? `${title.slice(0, 35)}...` : title;
   
   // Frontend-only download that preserves filename by streaming the blob
@@ -105,7 +103,7 @@ export const DownloadCard = ({
           className="bg-primary text-primary-foreground hover:bg-primary"
           onClick={() => {
             if (!downloadUrl || downloadUrl === '#') {
-              show('error', 'File not found', 'Please try again later.');
+              console.warn('File not found');
               return;
             }
             const base = (title || 'file').replace(/\.[a-zA-Z0-9]{1,10}$/i, '');
@@ -120,7 +118,7 @@ export const DownloadCard = ({
             const rawName = `${base}.${ext}`;
             const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, '_');
 
-            if ((import.meta as Record<string, unknown>).env?.PROD) {
+            if (import.meta.env?.PROD) {
               // In production (Vercel), route via serverless to force attachment
               const apiUrl = `/api/download?url=${encodeURIComponent(downloadUrl)}&name=${encodeURIComponent(safeName)}`;
               try {
