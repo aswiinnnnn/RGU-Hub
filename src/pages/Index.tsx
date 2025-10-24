@@ -169,7 +169,7 @@ const Index = () => {
           <h1 className="text-3xl md:text-6xl font-bold -mt-4 md:-mt-2 mb-1 leading-tight" style={{ color: heroPrefixColor }}>
             RGU HUB
             <span className="block mt-2">
-              <TypingText words={[ "PYQs", "Question Bank", "Notes", "Syllabus", "Practical Resources"]} prefixColor={heroPrefixColor} showCursor={false} />
+              <TypingText words={[  "Question Bank", "PYQs", "Syllabus", "Notes",  "Practical Resources"]} prefixColor={heroPrefixColor} showCursor={false} />
             </span>
           </h1>
           
@@ -199,7 +199,7 @@ const Index = () => {
             Available Resources
           </h2>
           <p className="text-muted-foreground">
-            Everything you need for your nursing education journey
+            Everything you need for your education journey
           </p>
         </div>
         

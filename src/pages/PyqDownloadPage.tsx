@@ -143,18 +143,22 @@ const PyqDownloadPage: React.FC = () => {
 
   const downloadFile = async (url: string, filename: string) => {
     try {
-      // If Cloudinary, avoid fetch (blocked by CSP). Use hidden iframe with fl_attachment
+      // If Cloudinary, avoid fetch/iframe (CSP). Use anchor with fl_attachment in a new tab
       try {
         const u = new URL(url);
         if (u.hostname.endsWith('res.cloudinary.com')) {
           const sep0 = url.includes('?') ? '&' : '?';
           const dl0 = `${url}${sep0}fl_attachment=${encodeURIComponent(filename)}`;
-          const iframe0 = document.createElement('iframe');
-          iframe0.style.display = 'none';
-          iframe0.src = dl0;
-          document.body.appendChild(iframe0);
-          await new Promise((r) => setTimeout(r, 500));
-          document.body.removeChild(iframe0);
+          const a0 = document.createElement('a');
+          a0.href = dl0;
+          a0.download = filename;
+          a0.target = '_blank';
+          a0.rel = 'noopener noreferrer';
+          a0.style.display = 'none';
+          document.body.appendChild(a0);
+          a0.click();
+          document.body.removeChild(a0);
+          await new Promise((r) => setTimeout(r, 300));
           return;
         }
       } catch {}
@@ -208,25 +212,24 @@ const PyqDownloadPage: React.FC = () => {
     } catch (error) {
       console.error('Download failed:', error);
 
-      // CSP fallback: try anchor-based download without fetch (Cloudinary friendly)
+      // Final fallback: anchor with fl_attachment in new tab
       try {
-        const link = document.createElement('a');
         const sep = url.includes('?') ? '&' : '?';
-        link.href = `${url}${sep}download=${encodeURIComponent(filename)}`;
+        const dlUrl = `${url}${sep}fl_attachment=${encodeURIComponent(filename)}`;
+        const link = document.createElement('a');
+        link.href = dlUrl;
         link.download = filename;
-        link.rel = 'noopener';
+        link.rel = 'noopener noreferrer';
+        link.target = '_blank';
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         await new Promise((r) => setTimeout(r, 300));
         return;
-      } catch (e) {
+      } catch {
         const errorMessage = error instanceof Error ? error.message : 'Download failed';
         alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
-        if (!errorMessage.includes('Invalid file URL')) {
-          window.open(url, '_blank', 'noopener,noreferrer');
-        }
       }
     }
   };
