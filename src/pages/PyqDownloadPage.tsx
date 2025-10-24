@@ -48,6 +48,12 @@ const PyqDownloadPage: React.FC = () => {
   const [items, setItems] = useState<PyqMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [vw, setVw] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     if (!subject?.slug) {
@@ -97,6 +103,71 @@ const PyqDownloadPage: React.FC = () => {
     }
   };
 
+  const downloadFile = async (url: string, filename: string) => {
+    try {
+      // Check for invalid/placeholder URLs
+      if (url.includes('your-cloud-name') || url.includes('example.com') || url.includes('placeholder')) {
+        throw new Error('Invalid file URL - please contact administrator');
+      }
+
+      // Always fetch as blob for proper download (handles Cloudinary and other CDNs)
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit'
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('File not found on server');
+        } else if (response.status === 403) {
+          throw new Error('Access denied to file');
+        } else {
+          throw new Error(`Failed to download file: ${response.status}`);
+        }
+      }
+
+      const blob = await response.blob();
+
+      // Check if blob is valid
+      if (blob.size === 0) {
+        throw new Error('Downloaded file is empty');
+      }
+
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      link.style.display = 'none';
+
+      // Trigger download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up blob URL after a short delay
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+
+    } catch (error) {
+      console.error('Download failed:', error);
+
+      // Show user-friendly error message
+      const errorMessage = error instanceof Error ? error.message : 'Download failed';
+      alert(`Unable to download file: ${errorMessage}\n\nPlease try again later or contact support if the problem persists.`);
+
+      // Fallback: try opening in new tab as last resort
+      if (!errorMessage.includes('Invalid file URL')) {
+        setTimeout(() => {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }, 1000); // Small delay to let alert be read
+      }
+    }
+  };
+
   const triggerDownload = (url: string, title?: string, fileType?: string) => {
     const base = safeTitleBase(title);
     let ext = (fileType || "pdf").toLowerCase();
@@ -110,34 +181,8 @@ const PyqDownloadPage: React.FC = () => {
     const rawName = `${base}.${ext}`;
     const safeName = rawName.replace(/[^a-zA-Z0-9._-]+/g, "_");
 
-    if (import.meta.env?.PROD) {
-      const apiUrl = `/api/download?url=${encodeURIComponent(url)}&name=${encodeURIComponent(safeName)}`;
-      const a = document.createElement("a");
-      a.href = apiUrl;
-      a.download = safeName;
-      a.rel = "noopener";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } else {
-      // dev: fetch blob (CSP allows Cloudinary in index.html)
-      fetch(url)
-        .then((r) => r.blob())
-        .then((blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = objectUrl;
-          link.download = safeName;
-          link.rel = "noopener";
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          URL.revokeObjectURL(objectUrl);
-        })
-        .catch(() => {
-          window.open(url, "_blank", "noopener,noreferrer");
-        });
-    }
+    // Use the enhanced download function
+    downloadFile(url, safeName);
   };
 
   return (
@@ -221,7 +266,8 @@ const PyqDownloadPage: React.FC = () => {
               const uploaded = m.created_at ? new Date(m.created_at).toLocaleDateString() : "-";
               const monthUpper = (m.month ? String(m.month) : "-").toUpperCase();
               const ym = `${monthUpper} ${m.year ? m.year : ""}`.trim();
-              const displayTitle = m.title && m.title.length > 35 ? `${m.title.slice(0, 35)}...` : m.title;
+              const maxLen = vw < 380 ? 22 : vw < 640 ? 28 : vw < 768 ? 34 : vw < 1024 ? 44 : 64;
+              const displayTitle = m.title && m.title.length > maxLen ? `${m.title.slice(0, maxLen)}...` : m.title;
 
               return (
                 <div
@@ -229,8 +275,9 @@ const PyqDownloadPage: React.FC = () => {
                   className="relative bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start sm:justify-between gap-3">
-                    <div className="flex items-start flex-1 min-w-0">
-                      <div className="flex-1 min-w-0 pr-24 sm:pr-0">
+                    <div className="flex items-start flex-1 min-w-0 pr-36 md:pr-40">
+
+                      <div className="flex-1 min-w-0 pr-36 md:pr-40">
                         <h4 className="text-base font-semibold text-foreground mb-1 break-words whitespace-normal" title={m.title}>
                           {displayTitle}
                         </h4>
