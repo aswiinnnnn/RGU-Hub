@@ -63,29 +63,9 @@ const ComingSoonNursing = () => {
               </div>
             </div>
 
-            <div className="space-y-4 md:space-y-6">
-              <div className="bg-primary/5 rounded-lg md:rounded-xl p-4 md:p-6 border border-primary/20">
-                <div className="flex items-start gap-3 md:gap-4">
-                  <div className="p-2 md:p-3 bg-primary/20 rounded-lg flex-shrink-0">
-                    <Heart className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base md:text-lg lg:text-xl font-bold text-foreground mb-2">
-                      Your Contribution Matters
-                    </h3>
-                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-2 md:mb-3">
-                      RGU Hub is a free platform helping students access quality study materials. 
-                      We believe in community collaboration.
-                    </p>
-                    <p className="text-sm md:text-base text-foreground font-medium leading-relaxed">
-                      Share your notes, PYQs, or resources to help fellow students build a stronger learning community.
-                    </p>
-                  </div>
-                </div>
-              </div>
 
-              {/* Contact Section */}
-              <div className="bg-success/5 rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 border border-success/20 shadow-medium">
+            {/* Contact Section */}
+            <div className="bg-success/5 rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 border border-success/20 shadow-medium">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-success/20 rounded-full mb-3 md:mb-4">
                     <MessageCircle className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-success" />
@@ -112,6 +92,29 @@ const ComingSoonNursing = () => {
                 </div>
               </div>
             </div>
+
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-primary/5 rounded-lg md:rounded-xl p-4 md:p-6 border border-primary/20">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="p-2 md:p-3 bg-primary/20 rounded-lg flex-shrink-0">
+                    <Heart className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base md:text-lg lg:text-xl font-bold text-foreground mb-2">
+                      Your Contribution Matters
+                    </h3>
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-2 md:mb-3">
+                      RGU Hub is a free platform helping students access quality study materials. 
+                      We believe in community collaboration.
+                    </p>
+                    <p className="text-sm md:text-base text-foreground font-medium leading-relaxed">
+                      Share your notes, PYQs, or resources to help fellow students build a stronger learning community.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              
           </div>
 
           {/* Additional Info */}
