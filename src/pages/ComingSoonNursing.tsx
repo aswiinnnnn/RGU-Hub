@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AppHeader from "@/components/AppHeader";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Heart, Users, Share2, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen,  Share2, MessageCircle, Sparkles } from "lucide-react";
 
 const ComingSoonNursing = () => {
   const navigate = useNavigate();
@@ -63,8 +63,6 @@ const ComingSoonNursing = () => {
               </div>
             </div>
 
-
-            {/* Contact Section */}
             <div className="bg-success/5 rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 border border-success/20 shadow-medium">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-success/20 rounded-full mb-3 md:mb-4">
@@ -91,30 +89,26 @@ const ComingSoonNursing = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            
 
             <div className="space-y-4 md:space-y-6">
-              <div className="bg-primary/5 rounded-lg md:rounded-xl p-4 md:p-6 border border-primary/20">
-                <div className="flex items-start gap-3 md:gap-4">
-                  <div className="p-2 md:p-3 bg-primary/20 rounded-lg flex-shrink-0">
-                    <Heart className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base md:text-lg lg:text-xl font-bold text-foreground mb-2">
-                      Your Contribution Matters
-                    </h3>
-                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-2 md:mb-3">
-                      RGU Hub is a free platform helping students access quality study materials. 
-                      We believe in community collaboration.
-                    </p>
-                    <p className="text-sm md:text-base text-foreground font-medium leading-relaxed">
-                      Share your notes, PYQs, or resources to help fellow students build a stronger learning community.
-                    </p>
-                  </div>
+              <div className="bg-primary/5 rounded-lg md:rounded-xl p-4 md:p-6 ">
+                <div className="text-center">
+                  <h3 className="text-base md:text-lg lg:text-xl font-bold text-foreground mb-2">
+                    Your Contribution Matters
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-2 md:mb-3 max-w-2xl mx-auto">
+                    RGU Hub is a free platform helping students access quality study materials. 
+                    We believe in community collaboration. Share your notes, PYQs, or resources to help fellow students build a stronger learning community.
+                  </p>
+
+                  
                 </div>
               </div>
 
+              {/* Contact Section */}
               
+            </div>
           </div>
 
           {/* Additional Info */}
