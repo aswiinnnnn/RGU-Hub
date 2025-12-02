@@ -352,35 +352,32 @@ const PyqDownloadPage: React.FC = () => {
               return (
                 <div
                   key={m.id}
-                  className="relative bg-card hover:bg-card-hover border border-border rounded-xl p-5 shadow-soft hover:shadow-medium transition-all duration-300"
+                  className="relative bg-card hover:bg-card-hover border border-border rounded-xl p-4 md:p-5 shadow-soft hover:shadow-medium transition-all duration-300"
                 >
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-start justify-start sm:justify-between gap-3">
-                    <div className="flex items-start flex-1 min-w-0 pr-36 md:pr-40">
-
-                      <div className="flex-1 min-w-0 pr-36 md:pr-40">
-                        <h4 className="text-base font-semibold text-foreground mb-1 break-words whitespace-normal" title={m.title}>
-                          {displayTitle}
-                        </h4>
-                        {/* Highlight Year + Month just below title */}
-                        <div className="text-sm md:text-base font-semibold text-primary mb-1">
-                          {ym || "-"}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 sm:mt-0">
-                            <span className="flex items-center gap-1">{fileType}</span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{uploaded}</span>
-                          </div>
-                        </div>
-                        {m.description ? (
-                          <p className="mt-2 text-sm text-muted-foreground break-words">{m.description}</p>
-                        ) : null}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0 pr-2 md:pr-3">
+                      <h4 className="text-sm md:text-base font-semibold text-foreground mb-1 line-clamp-2" title={m.title}>
+                        {m.title}
+                      </h4>
+                      {/* Highlight Year + Month just below title */}
+                      <div className="text-xs md:text-sm font-semibold text-primary mb-1">
+                        {ym || "-"}
                       </div>
+                      <div className="text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-x-2 md:gap-x-3 gap-y-1">
+                          <span className="flex items-center gap-1">{fileType}</span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{uploaded}</span>
+                        </div>
+                      </div>
+                      {m.description ? (
+                        <p className="mt-2 text-xs md:text-sm text-muted-foreground line-clamp-2">{m.description}</p>
+                      ) : null}
                     </div>
-                    <div className="absolute top-5 right-5">
+                    <div className="flex-shrink-0">
                       <Button
                         size="sm"
-                        className="bg-primary text-primary-foreground hover:bg-primary"
+                        className="bg-primary text-primary-foreground hover:bg-primary whitespace-nowrap text-xs md:text-sm px-3 md:px-4"
                         disabled={downloadingId === m.id}
                         onClick={() => triggerDownload(m.url, m.title, m.file_type || "pdf", m.id)}
                       >
