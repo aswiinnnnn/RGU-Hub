@@ -28,8 +28,7 @@ export const YearCard = ({
         <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-3 group-hover:translate-x-1" />
       </div>
       
-      <h3 className="text-2xl font-bold text-foreground mb-1">{year}</h3>
-      <p className="text-sm text-muted-foreground mb-3">{academicYear}</p>
+      <h3 className="text-2xl font-bold text-foreground mb-3">{year}</h3>
       
       <div className="flex items-center text-sm text-muted-foreground">
         <BookOpen className="w-4 h-4 mr-1" />

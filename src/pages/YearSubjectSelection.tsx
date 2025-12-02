@@ -146,9 +146,6 @@ const YearSubjectSelection = () => {
                   {subject.materials_count || 0} materials
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-primary font-medium">{subject.code}</span>
-              </div>
             </div>
           ))}
         </div>

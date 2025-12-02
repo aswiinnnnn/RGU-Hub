@@ -5,19 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BookOpen, HeartPulse, ArrowRight, ArrowLeft } from "lucide-react";
 
-const courses = [
+type Course = {
+	id: string;
+	title: string;
+	subtitle: string;
+	description: string;
+	icon: typeof BookOpen;
+	path: string;
+	comingSoon?: boolean;
+};
+
+const courses: Course[] = [
 	{
 		id: "bsc-nursing",
 		title: "BSC Nursing",
-		subtitle: "Semester-wise Scheme",
+		subtitle: "Semester-wise scheme",
 		description:
 			"Navigate by semester. The curriculum is consolidated to a single semester-wise scheme.",
 		icon: BookOpen,
-		path: "/semester",
+		path: "/coming-soon-nursing",
+		comingSoon: true,
 	},
 	{
 		id: "bsc-physiotherapy",
-		title: "BSC Physiotherapy",
+		title: "Bachelor of Physiotherapy",
 		subtitle: "RS5 Scheme",
 		description:
 			"Curriculum follows RS5 scheme. Proceed to select semester to continue.",
@@ -37,7 +48,7 @@ const CourseSelection = () => {
 	};
 
 	// Log course selection and navigation
-	const handleCourseSelect = (course: typeof courses[0]) => {
+	const handleCourseSelect = (course: Course) => {
 		const courseCode = course.id === 'bsc-nursing' ? 'BN' : 'BPT';
 		navigate(course.path, { state: { course: courseCode } });
 	};
@@ -75,25 +86,48 @@ const CourseSelection = () => {
 					{courses.map((course) => (
 						<Card
 							key={course.id}
-							className="p-6 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-border hover:border-primary group"
+							className={`p-6 hover:shadow-lg transition-all cursor-pointer group ${
+								course.comingSoon 
+									? 'bg-gradient-card border border-success/30 hover:border-success/40' 
+									: 'bg-gradient-card border-border hover:border-primary'
+							}`}
 							onClick={() => handleCourseSelect(course)}
 						>
 							<div className="flex items-start space-x-4">
-								<div className="p-3 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors">
-									<course.icon className="w-8 h-8 text-primary" />
+								<div className={`p-3 rounded-xl transition-colors ${
+									course.comingSoon 
+										? 'bg-success/10 group-hover:bg-success/15' 
+										: 'bg-primary/10 group-hover:bg-primary/20'
+								}`}>
+									<course.icon className={`w-8 h-8 ${
+										course.comingSoon ? 'text-success' : 'text-primary'
+									}`} />
 								</div>
 								<div className="flex-1">
-									<h3 className="text-xl font-bold text-foreground mb-1">
-										{course.title}
-									</h3>
-									<p className="text-sm text-primary font-medium mb-2">
+									<div className="flex items-center gap-2 mb-1">
+										<h3 className="text-xl font-bold mb-1 text-foreground">
+											{course.title}
+										</h3>
+										{course.comingSoon && (
+											<span className="px-2 py-0.5 text-xs font-medium bg-success/20 text-success border border-success/30 rounded-full">
+												COMING SOON
+											</span>
+										)}
+									</div>
+									<p className={`text-sm font-medium mb-2 ${
+										course.comingSoon ? 'text-success' : 'text-primary'
+									}`}>
 										{course.subtitle}
 									</p>
 									<p className="text-sm text-muted-foreground">
 										{course.description}
 									</p>
 								</div>
-								<ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" />
+								<ArrowRight className={`w-5 h-5 transition-colors mt-1 ${
+									course.comingSoon 
+										? 'text-success/70 group-hover:text-success' 
+										: 'text-muted-foreground group-hover:text-primary'
+								}`} />
 							</div>
 						</Card>
 					))}

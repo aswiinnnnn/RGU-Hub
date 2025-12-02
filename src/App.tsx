@@ -54,6 +54,7 @@ import CourseSelection from "./pages/CourseSelection.tsx";
 import Recruitment from "./pages/Recruitment";
 import YearSelection from "./pages/YearSelection";
 import YearSubjectSelection from "./pages/YearSubjectSelection";
+import ComingSoonNursing from "./pages/ComingSoonNursing";
 
 // Create TanStack Query client for API state management
 const queryClient = new QueryClient();
@@ -85,8 +86,9 @@ const router = createBrowserRouter([
   { path: '/semester-materials/:semesterId/:subjectId', element: <SEOWrapper><SemesterMaterialSelection /></SEOWrapper> },
   { path: '/semester-download/:semesterId/:subjectId/:materialType', element: <SEOWrapper><SemesterDownloadPage /></SEOWrapper> },
   { path: '/recruitment', element: <SEOWrapper><Recruitment /></SEOWrapper> },
+  { path: '/coming-soon-nursing', element: <SEOWrapper><ComingSoonNursing /></SEOWrapper> },
   { path: '*', element: <SEOWrapper><NotFound /></SEOWrapper> },
-], { future: { v7_relativeSplatPath: true } });
+], { future: { v7_relativeSplatPath: true, v7_startTransition: true } });
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

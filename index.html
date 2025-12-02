@@ -20,11 +20,11 @@
     <!-- Content Security Policy (development fallback): update connect-src to include backend domain; avoid frame-ancestors here -->
    <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https://vercel.live https://*.vercel-insights.com; 
+               script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data: https://vercel.live https://*.vercel-insights.com https://va.vercel-scripts.com; 
                style-src 'self' 'unsafe-inline' blob:; 
                img-src 'self' data: https:; 
                font-src 'self' data:; 
-               connect-src 'self' https://res.cloudinary.com https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com;">
+               connect-src 'self' http://localhost:8080 ws://localhost:8080 http://127.0.0.1:8080 ws://127.0.0.1:8080 http://localhost:5173 ws://localhost:5173 http://127.0.0.1:5173 ws://127.0.0.1:5173 https://res.cloudinary.com https://rgu-hub-backend.onrender.com https://api.rguhub.site https://*.vercel-insights.com;">
 
 
     <!-- Open Graph / Facebook -->

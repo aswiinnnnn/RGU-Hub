@@ -288,7 +288,7 @@ const SemesterMaterialSelection = () => {
           </div>
         )}
 
-{materials.length > 0 && (
+{materials.filter((material) => !material.material_type).length > 0 && (
   <div className="mt-10">
     <h2 className="text-xl font-bold ">Uncategorized Materials</h2>
     <div className="mt-1  mb-10 ">

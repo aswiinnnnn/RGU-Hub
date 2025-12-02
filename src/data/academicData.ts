@@ -20,19 +20,19 @@ export const years = [
   {
     year: "1st Year",
     academicYear: "2022-23",
-    subjectCount: 8,
+    subjectCount: 6,
     current: false
   },
   {
     year: "2nd Year",
     academicYear: "2023-24",
-    subjectCount: 8,
+    subjectCount: 5,
     current: false
   },
   {
     year: "3rd Year",
     academicYear: "2024-25",
-    subjectCount: 6,
+    subjectCount: 5,
     current: true
   },
   {

@@ -221,25 +221,28 @@ const Index = () => {
       <section className="container mx-auto px-4 pb-6 pt-12" aria-label="Recruitment opportunities">
         <div className="max-w-4xl mx-auto">
           <article 
-            onClick={() => navigate('/recruitment')}
-            className="group bg-gradient-primary rounded-2xl p-8 md:p-12 shadow-medium hover:shadow-lg transition-all duration-300 cursor-pointer animate-fade-in"
+            className="group bg-gradient-card rounded-2xl p-8 md:p-12 border border-success/30 shadow-medium transition-all duration-300 animate-fade-in"
           >
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="flex-shrink-0">
-                <div className="p-4 bg-white/20 rounded-2xl shadow-medium group-hover:scale-110 transition-transform">
-                  <Briefcase className="w-12 h-12 text-primary-foreground" />
+                <div className="p-4 bg-success/10 rounded-2xl">
+                  <Briefcase className="w-12 h-12 text-success" />
                 </div>
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-2">
-                  Recruitment Portal
-                </h3>
-                <p className="text-primary-foreground/90 mb-4">
+                <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">
+                    Recruitment Portal
+                  </h3>
+                  <span className="px-2 py-0.5 text-xs font-medium bg-success/20 text-success border border-success/30 rounded-full">
+                    COMING SOON
+                  </span>
+                </div>
+                <p className="text-muted-foreground mb-4">
                   Discover placement opportunities and internships for BSc Nursing & Physiotherapy students
                 </p>
-                <div className="inline-flex items-center gap-2 text-primary-foreground font-medium">
-                  Browse Opportunities
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <div className="inline-flex items-center gap-2 text-success font-medium">
+                  Coming Soon
                 </div>
               </div>
             </div>
@@ -267,10 +270,13 @@ const Index = () => {
             return (
               <article
                 key={idx}
-                className="flex items-center bg-gradient-card rounded-xl p-4 border border-border shadow-sm cursor-pointer hover:shadow-md transition-all"
+                className={`flex items-center bg-gradient-card rounded-xl p-4 border border-border shadow-sm transition-all ${
+                  isRecruitment ? '' : 'cursor-pointer hover:shadow-md'
+                }`}
                 onClick={() => {
                   if (isRecruitment) {
-                    navigate('/recruitment');
+                    // Recruitment is coming soon, don't navigate
+                    return;
                   } else {
                     // Without deep-link hints from backend, send user to the semester flow
                     navigate('/course');
