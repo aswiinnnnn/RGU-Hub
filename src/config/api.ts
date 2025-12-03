@@ -31,47 +31,22 @@
  * Last Updated: 2025
  */
 
-/**
- * Base URL for the Django REST API backend
- * 
- * Development: http://127.0.0.1:8000
- * Production: set VITE_API_BASE_URL in .env or host settings
- */
-/**
- * Base URL for the Django REST API backend
- * 
- * Development: Uses /api which is proxied by Vite to the Render backend
- * Production: Uses VITE_API_BASE_URL from environment (must be set)
- * 
- * To use a different backend in dev, set VITE_API_PROXY_TARGET in vite.config.ts
- */
-const isProd = import.meta.env.PROD || import.meta.env.MODE === 'production';
+const FALLBACK_API_URL = 'https://rgu-hub-backend.onrender.com';
 
-// In development, use relative /api path which Vite proxies to Render backend
-// This avoids CORS issues and allows local development with remote backend
-const DEFAULT_DEV_URL = '/api';
+const rawApiUrl =
+  (import.meta as any)?.env?.VITE_API_BASE_URL?.trim() || FALLBACK_API_URL;
 
-// Get API URL from environment or use defaults
-let apiUrl: string;
-if (isProd) {
-  // Production: must use absolute URL from environment
-  const prodUrl = import.meta.env.VITE_API_BASE_URL;
-  if (!prodUrl) {
-    throw new Error('VITE_API_BASE_URL is required in production');
+let normalizedApiUrl: string;
+try {
+  const parsed = new URL(rawApiUrl);
+  if (parsed.protocol !== 'https:') {
+    throw new Error('API base URL must use HTTPS');
   }
-  try {
-    const url = new URL(prodUrl);
-    if (url.protocol !== 'https:') {
-      throw new Error('API base URL must use HTTPS in production');
-    }
-    apiUrl = url.origin.replace(/\/$/, '');
-  } catch (error) {
-    throw new Error(`Invalid VITE_API_BASE_URL: ${error instanceof Error ? error.message : 'Invalid URL'}`);
-  }
-} else {
-  // Development: use relative path to leverage Vite proxy
-  // The proxy is configured in vite.config.ts to forward to Render backend
-  apiUrl = DEFAULT_DEV_URL;
+  normalizedApiUrl = parsed.origin.replace(/\/$/, '');
+} catch (error) {
+  throw new Error(
+    `Invalid API base URL: ${error instanceof Error ? error.message : 'Invalid URL'}`
+  );
 }
 
-export const API_BASE_URL = apiUrl;
+export const API_BASE_URL = normalizedApiUrl;

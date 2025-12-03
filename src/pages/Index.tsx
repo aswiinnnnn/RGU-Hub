@@ -5,6 +5,7 @@ import AppHeader from "@/components/AppHeader";
 import { HighlightCard } from "@/components/HighlightCard";
 import { API_BASE_URL } from "@/config/api";
 import { RainbowButton } from "@/components/ui/rainbow-button";
+import { Button } from "@/components/ui/button";
 import { 
   BookOpen, 
   FileText, 
@@ -13,7 +14,9 @@ import {
   Stethoscope,
   ArrowRight,
   BookMarked,
-  Briefcase
+  Briefcase,
+  MessageCircle,
+  Share2
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -234,15 +237,15 @@ const Index = () => {
                   <h3 className="text-2xl md:text-3xl font-bold text-foreground">
                     Recruitment Portal
                   </h3>
-                  <span className="px-2 py-0.5 text-xs font-medium bg-success/20 text-success border border-success/30 rounded-full">
-                    COMING SOON
-                  </span>
+                  
                 </div>
                 <p className="text-muted-foreground mb-4">
                   Discover placement opportunities and internships for BSc Nursing & Physiotherapy students
                 </p>
                 <div className="inline-flex items-center gap-2 text-success font-medium">
-                  Coming Soon
+                <span className="px-2 py-0.5 text-xs font-medium bg-success/20 text-success border border-success/30 rounded-full">
+                    COMING SOON
+                  </span>
                 </div>
               </div>
             </div>
@@ -291,6 +294,38 @@ const Index = () => {
               </article>
             );
           })}
+        </div>
+      </section>
+
+      {/* Contribution Section */}
+      <section className="container mx-auto px-4 py-8" aria-label="Contribute study materials">
+        <div className="max-w-4xl mx-auto bg-success/5 rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 border border-success/20 shadow-medium animate-fade-in">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-success/20 rounded-full mb-3 md:mb-4">
+              <MessageCircle className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-success" />
+            </div>
+            <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground mb-2 md:mb-3">
+              Have Study Materials to Share?
+            </h3>
+            <p className="text-sm md:text-base text-muted-foreground mb-4 md:mb-6 max-w-2xl mx-auto">
+              Contact us via WhatsApp or email and help strengthen the community. Every note, PYQ, and resource makes a difference.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+              <Button
+                size="lg"
+                className="bg-gradient-primary hover:opacity-90 text-primary-foreground px-4 md:px-6 lg:px-8 py-4 md:py-5 lg:py-6 text-sm md:text-base lg:text-lg rounded-lg md:rounded-xl shadow-medium w-full sm:w-auto"
+                onClick={() => {
+                  window.open('https://wa.me/919605982147?text=Hi%20admin%2C%0AI%20have%20study%20material%20(notes%20%2B%20PYQs).%20Want%20to%20share%20with%20the%20community.%0AHow%20can%20I%20upload%2Fsend%20it%3F', '_blank');
+                }}
+              >
+                <Share2 className="w-4 h-4 md:w-5 md:h-5 mr-2 flex-shrink-0" />
+                <span className="whitespace-nowrap">Contact on WhatsApp</span>
+              </Button>
+              <div className="text-sm md:text-base text-foreground font-semibold">
+                or email: <a href="mailto:info.rguhub@gmail.com" className="text-primary underline">info.rguhub@gmail.com</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -108,11 +108,6 @@ const CourseSelection = () => {
 										<h3 className="text-xl font-bold mb-1 text-foreground">
 											{course.title}
 										</h3>
-										{course.comingSoon && (
-											<span className="px-2 py-0.5 text-xs font-medium bg-success/20 text-success border border-success/30 rounded-full">
-												COMING SOON
-											</span>
-										)}
 									</div>
 									<p className={`text-sm font-medium mb-2 ${
 										course.comingSoon ? 'text-success' : 'text-primary'

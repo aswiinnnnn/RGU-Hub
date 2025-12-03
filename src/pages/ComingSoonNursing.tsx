@@ -58,7 +58,7 @@ const ComingSoonNursing = () => {
                   Help Us Build Together!
                 </h2>
                 <p className="text-xs md:text-sm text-muted-foreground">
-                  Free platform by students, for students
+                  Free platform to access study materials for RGUHS Students
                 </p>
               </div>
             </div>
@@ -102,7 +102,7 @@ const ComingSoonNursing = () => {
                     We believe in community collaboration. Share your notes, PYQs, or resources to help fellow students build a stronger learning community.
                   </p>
 
-                  
+
                 </div>
               </div>
 
